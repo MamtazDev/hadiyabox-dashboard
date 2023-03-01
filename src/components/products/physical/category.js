@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Breadcrumb from "../../common/breadcrumb";
 import "react-toastify/dist/ReactToastify.css";
 import { data } from "../../../assets/data/category";
@@ -20,11 +20,14 @@ import {
   ModalHeader,
   Row,
 } from "reactstrap";
+import { toast } from "react-toastify";
 
 const Category = () => {
   const [open, setOpen] = useState(false);
   const [categoryName, setCategoryName] = useState("");
-  const [categoryImage, setCategoryImage] = useState("");
+  const [producetName, setProductName] = useState("");
+  const [producetPrice, setProductPrice] = useState("");
+  const [fetchData, setFetchData] = useState([]);
 
   const onOpenModal = () => {
     setOpen(true);
@@ -37,12 +40,13 @@ const Category = () => {
   const handlesubmit = () => {
     const parent = categoryName;
     const slug = categoryName.toLocaleLowerCase();
-    const icon = categoryImage;
+    // const symbolPrice =
 
     const category = {
-      parent,
+      category: categoryName,
       slug,
-      icon,
+      product_name: producetName,
+      price: `$${producetPrice}`,
     };
     fetch("http://localhost:5055/api/category/add", {
       method: "POST",
@@ -55,9 +59,34 @@ const Category = () => {
       .then((result) => {
         if (result.status === 200) {
           setOpen(false);
+          window.location.reload(true);
         }
       });
   };
+
+  const handleCategoryDelete = (id) => {
+    if (window.confirm("Are you sure you wish to delete this item?")) {
+      fetch(`http://localhost:5055/api/category/${id}`, {
+        method: "DELETE",
+        headers: {
+          "content-type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === 200) {
+            toast.success("Category Deleted Successfully!");
+            window.location.reload(true);
+          }
+        });
+    }
+  };
+
+  useEffect(() => {
+    fetch("http://localhost:5055/api/category/")
+      .then((res) => res.json())
+      .then((data) => setFetchData(data));
+  }, [fetchData]);
 
   return (
     <Fragment>
@@ -108,6 +137,32 @@ const Category = () => {
                         </FormGroup>
                         <FormGroup>
                           <Label
+                            htmlFor="recipient-name"
+                            className="col-form-label"
+                          >
+                            Product Name :
+                          </Label>
+                          <Input
+                            type="text"
+                            className="form-control"
+                            onChange={(e) => setProductName(e.target.value)}
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <Label
+                            htmlFor="recipient-name"
+                            className="col-form-label"
+                          >
+                            Price :
+                          </Label>
+                          <Input
+                            type="text"
+                            className="form-control"
+                            onChange={(e) => setProductPrice(e.target.value)}
+                          />
+                        </FormGroup>
+                        {/* <FormGroup>
+                          <Label
                             htmlFor="message-text"
                             className="col-form-label"
                           >
@@ -119,7 +174,7 @@ const Category = () => {
                             type="file"
                             onChange={(e) => setCategoryImage(e.target.value)}
                           />
-                        </FormGroup>
+                        </FormGroup> */}
                       </Form>
                     </ModalBody>
                     <ModalFooter>
@@ -144,15 +199,19 @@ const Category = () => {
                   </Modal>
                 </div>
                 <div className="clearfix"></div>
-                <div id="basicScenario" className="product-physical">
-                  <Datatable
-                    myData={data}
-                    multiSelectOption={false}
-                    pageSize={10}
-                    pagination={true}
-                    class="-striped -highlight"
-                  />
-                </div>
+
+                {fetchData.length > 0 && (
+                  <div id="basicScenario" className="product-physical">
+                    <Datatable
+                      myData={fetchData}
+                      multiSelectOption={false}
+                      pageSize={10}
+                      pagination={true}
+                      class="-striped -highlight"
+                      handleCategoryDelete={handleCategoryDelete}
+                    />
+                  </div>
+                )}
               </CardBody>
             </Card>
           </Col>
