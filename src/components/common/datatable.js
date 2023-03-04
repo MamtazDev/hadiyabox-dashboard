@@ -22,6 +22,7 @@ const Datatable = ({
   handleCategoryDelete,
 }) => {
   console.log(myData, "hellodata");
+  
   const [open, setOpen] = useState(false);
   const [checkedValues, setCheckedValues] = useState([]);
   const [data, setData] = useState(myData);
