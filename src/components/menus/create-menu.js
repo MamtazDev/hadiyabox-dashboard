@@ -11,7 +11,7 @@ const Create_menu = () => {
 					<Col sm="12">
 						<Card>
 							<CardHeader>
-								<h5>Add Menu</h5>
+								<h5>Add Menu  <span style={{color:'red'}}>Create menu  is added on product - category route</span> </h5>
 							</CardHeader>
 							<CardBody>
 								<Form className="needs-validation">

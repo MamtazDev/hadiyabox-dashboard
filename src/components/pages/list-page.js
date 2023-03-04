@@ -1,19 +1,25 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Breadcrumb from "../common/breadcrumb";
 import data from "../../assets/data/listPages";
 import Datatable from "../common/datatable";
 import { Card, CardBody, CardHeader, Col, Container, Row } from "reactstrap";
 
 const ListPages = () => {
+	const [ticket,setTicket] = useState([]);
+	useEffect(()=>{
+		fetch('http://localhost:5055/api/ticket/')
+		.then(res=>res.json())
+		.then(data=>setTicket(data))
+	},[])
 	return (
 		<Fragment>
-			<Breadcrumb title="List Pages" parent="Pages" />
+			<Breadcrumb title="Ticket Pages" parent="Ticket" />
 			<Container fluid={true}>
 				<Row>
 					<Col sm="12">
 						<Card>
 							<CardHeader>
-								<h5>Products Category</h5>
+								<h5>Ticket List</h5>
 							</CardHeader>
 							<CardBody>
 								<div
@@ -22,7 +28,7 @@ const ListPages = () => {
 								>
 									<Datatable
 										multiSelectOption={true}
-										myData={data}
+										myData={ticket}
 										pageSize={7}
 										pagination={false}
 										class="-striped -highlight"

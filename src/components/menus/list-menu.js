@@ -13,7 +13,7 @@ const List_menu = () => {
 					<Col sm="12">
 						<Card>
 							<CardHeader>
-								<h5>Menu Lists</h5>
+								<h5>Menu Lists <span style={{color:'red'}}>Category is added on product - category route</span>   </h5>
 							</CardHeader>
 							<CardBody>
 								<div

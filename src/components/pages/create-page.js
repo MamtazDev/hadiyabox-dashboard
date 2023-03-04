@@ -6,7 +6,7 @@ import TabsetPage from "./tabset-page";
 const Create_page = () => {
 	return (
 		<Fragment>
-			<Breadcrumb title="Create Page" parent="Pages" />
+			<Breadcrumb title="Create Ticket" parent="Ticket" />
 			<Container fluid={true}>
 				<Card>
 					<CardHeader>
