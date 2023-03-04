@@ -7,6 +7,8 @@ import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 const LoginTabset = () => {
   const history = useNavigate();
   const [userId, setUserId] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const clickActive = (event) => {
     document.querySelector(".nav-link").classList.remove("show");
@@ -21,8 +23,8 @@ const LoginTabset = () => {
 
   const loginHandler = () => {
     const data = {
-      email: "nipa1@gmail.com",
-      password: "1234565",
+      email,
+      password
     };
 
     fetch(`http://localhost:5055/api/admin/login`, {
@@ -65,6 +67,7 @@ const LoginTabset = () => {
               <FormGroup>
                 <Input
                   required=""
+                  onChange={(e)=>setEmail(e.target.value)}
                   name="login[username]"
                   type="email"
                   className="form-control"
@@ -75,6 +78,7 @@ const LoginTabset = () => {
               <FormGroup>
                 <Input
                   required=""
+                  onChange={(e)=>setPassword(e.target.value)}
                   name="login[password]"
                   type="password"
                   className="form-control"
