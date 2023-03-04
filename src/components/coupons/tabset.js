@@ -39,16 +39,15 @@ const Tabset = () => {
       productType,
     };
 
-    fetch("http://localhost:5055/api/coupon/add",{
-		method:"POST",
-		headers:{
-			"content-type":"application/json"
-		},
-		body:JSON.stringify(couponData)
-	})
-	.then(res=>res.json())
-	.then(data=>console.log(data))
-
+    fetch("http://localhost:5055/api/coupon/add", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(couponData),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
   };
 
   return (
@@ -145,7 +144,7 @@ const Tabset = () => {
                         id="validationCustom1"
                         type="date"
                         onChange={(e) => {
-							setEndTime(e.target.value);
+                          setEndTime(e.target.value);
                         }}
                         required=""
                       />
