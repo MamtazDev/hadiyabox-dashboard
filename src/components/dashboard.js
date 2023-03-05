@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Breadcrumb from "./common/breadcrumb";
 import {
 	Navigation,
@@ -53,6 +53,7 @@ import {
 	Row,
 	Table,
 } from "reactstrap";
+import Datatable from "./common/datatable";
 
 ChartJS.register(
 	CategoryScale,
@@ -69,7 +70,17 @@ ChartJS.register(
 	RadialLinearScale
   );
 
+ 
+
+
+
 const Dashboard = () => {
+	const [wallet,setWallet] = useState([]);
+	// useEffect(()=>{
+	// 	fetch('http://localhost:5055/api/orders/wallet/all')
+	// 	.then(res=>res.json())
+	// 	.then(data=>setWallet(data))
+	// },[])
 	const lineData = {
 		labels: ["100", "200", "300", "400", "500", "600", "700", "800"],
 		datasets: [
@@ -697,7 +708,15 @@ const Dashboard = () => {
 							</CardHeader>
 							<CardBody>
 								<div className="user-status table-responsive products-table">
-									<table className="table table-bordernone mb-0">
+								<Datatable
+									multiSelectOption={false}
+									myData={wallet}
+									pageSize={10}
+									pagination={true}
+									class="-striped -highlight"
+								/>
+
+									{/* <table className="table table-bordernone mb-0">
 										<thead>
 											<tr>
 												<th scope="col">Details</th>
@@ -750,7 +769,7 @@ const Dashboard = () => {
 												<td className="digits">$6523</td>
 											</tr>
 										</tbody>
-									</table>
+									</table> */}
 								</div>
 							</CardBody>
 						</Card>
@@ -960,6 +979,13 @@ const Dashboard = () => {
 										</tbody>
 									</Table>
 								</div>
+
+
+
+
+
+
+
 							</CardBody>
 						</Card>
 					</Col>

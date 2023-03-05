@@ -20,7 +20,6 @@ const Datatable = ({
   multiSelectOption,
   pagination,
   handleCategoryDelete,
-
 }) => {
   console.log(myData, "hellodata");
   
@@ -229,9 +228,6 @@ const Datatable = ({
       sortable: false,
     });
   }
-
-  console.log("data",myData)
-
   return (
     <div>
       <Fragment>

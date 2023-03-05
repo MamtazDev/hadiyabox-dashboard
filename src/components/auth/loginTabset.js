@@ -56,10 +56,10 @@ const LoginTabset = () => {
               <User />
               Login
             </Tab>
-            <Tab className="nav-link" onClick={(e) => clickActive(e)}>
+            {/* <Tab className="nav-link" onClick={(e) => clickActive(e)}>
               <Unlock />
               Register
-            </Tab>
+            </Tab> */}
           </TabList>
 
           <TabPanel>
