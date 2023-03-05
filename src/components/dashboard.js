@@ -81,6 +81,13 @@ const Dashboard = () => {
 	// 	.then(res=>res.json())
 	// 	.then(data=>setWallet(data))
 	// },[])
+	const [user, setUser] = useState([]);
+	useEffect(() => {
+	  fetch("http://localhost:5055/api/admin")
+		.then((res) => res.json())
+		.then((data) => setUser(data));
+	}, []);
+	console.log("nipaaaa-user", user);
 	const lineData = {
 		labels: ["100", "200", "300", "400", "500", "600", "700", "800"],
 		datasets: [
@@ -780,7 +787,14 @@ const Dashboard = () => {
 								<h5>Empolyee Status</h5>
 							</CardHeader>
 							<CardBody>
-								<div className="user-status table-responsive products-table">
+							<Datatable
+                multiSelectOption={true}
+                myData={user}
+                pageSize={10}
+                pagination={true}
+                class="-striped -highlight"
+              />
+								{/* <div className="user-status table-responsive products-table">
 									<Table className=" table-bordernone mb-0">
 										<thead>
 											<tr>
@@ -978,7 +992,7 @@ const Dashboard = () => {
 											</tr>
 										</tbody>
 									</Table>
-								</div>
+								</div> */}
 
 
 
