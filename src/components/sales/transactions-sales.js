@@ -6,14 +6,11 @@ import { Card, CardBody, CardHeader, Col, Container, Row } from "reactstrap";
 
 const Transactions_sales = () => {
   const [ticket, setTicket] = useState([]);
-  useEffect(
-    () => 
-	{fetch("http://localhost:5055/api/ticket/")
-	.then((res) => res.json())
-	.then((data) => setTicket(data))}
-    ,
-    []
-  );
+  useEffect(() => {
+    fetch("http://localhost:5055/api/ticket/")
+      .then((res) => res.json())
+      .then((data) => setTicket(data));
+  }, []);
   return (
     <Fragment>
       <Breadcrumb title="Transactions" parent="Sales" />
@@ -28,7 +25,7 @@ const Transactions_sales = () => {
               <CardBody>
                 <div id="batchDelete" className="transactions">
                   <Datatable
-                    multiSelectOption={false}
+                    listPage={true}
                     myData={ticket}
                     pageSize={10}
                     pagination={true}

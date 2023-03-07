@@ -20,12 +20,15 @@ const Datatable = ({
   multiSelectOption,
   pagination,
   handleCategoryDelete,
+  listPage,
 }) => {
-  console.log(myData, "hellodata");
-  
+  // console.log(myData, "hellodata");
+
   const [open, setOpen] = useState(false);
   const [checkedValues, setCheckedValues] = useState([]);
   const [data, setData] = useState(myData);
+
+  console.log(checkedValues, "gg");
   const selectRow = (e, i) => {
     if (!e.target.checked) {
       setCheckedValues(checkedValues.filter((item, j) => i !== item));
@@ -35,12 +38,38 @@ const Datatable = ({
     }
   };
 
-  const handleRemoveRow = () => {
-    const updatedData = myData.filter(function (el) {
-      return checkedValues.indexOf(el.id) < 0;
-    });
-    setData([...updatedData]);
-    toast.success("Successfully Deleted !");
+  const handleRemoveRow = (Values) => {
+    const ids = {
+      id: Values,
+    };
+
+    fetch("http://localhost:5055/api/coupon/multipleDelete", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(ids),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.deletedCount > 0) {
+          window.location.reload(true);
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const handleDelteTicketList = (id) => {
+    fetch(`http://localhost:5055/api/ticket/remove/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === 200) {
+          window.location.reload(true);
+        }
+      })
+      .catch((error) => console.log(error));
   };
 
   const renderEditable = (cellInfo) => {
@@ -59,6 +88,23 @@ const Datatable = ({
       />
     );
   };
+
+  const handleDeleteUser = (id) => {
+    fetch(`http://localhost:5055/api/admin/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message) {
+          window.location.reload(true);
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
+  // const handleDeleteWallet = (id)=>{
+  //   fetch(``)
+  // }
 
   const handleDelete = (index) => {
     if (window.confirm("Are you sure you wish to delete this item?")) {
@@ -117,7 +163,7 @@ const Datatable = ({
           className="btn btn-danger btn-sm btn-delete mb-0 b-r-4"
           onClick={(e) => {
             if (window.confirm("Are you sure you wish to delete this item?"))
-              handleRemoveRow();
+              handleRemoveRow(checkedValues);
           }}
         >
           Delete
@@ -130,9 +176,9 @@ const Datatable = ({
           <span>
             <input
               type="checkbox"
-              name={row.id}
-              defaultChecked={checkedValues.includes(row.id)}
-              onChange={(e) => selectRow(e, row.id)}
+              name={row._id}
+              defaultChecked={checkedValues.includes(row._id)}
+              onChange={(e) => selectRow(e, row._id)}
             />
           </span>
         </div>
@@ -142,7 +188,7 @@ const Datatable = ({
       },
       sortable: false,
     });
-  } else {
+  } else if (multiSelectOption === false) {
     columns.push({
       name: <b>Action</b>,
       id: "delete",
@@ -227,6 +273,100 @@ const Datatable = ({
       },
       sortable: false,
     });
+  } else if (listPage === true) {
+    columns.push({
+      name: <b>Action</b>,
+      id: "delete",
+      accessor: (str) => "delete",
+      cell: (row, index) => (
+        <div>
+          <button
+            className="btn"
+            onClick={() => {
+              if (window.confirm("Are you sure you wish to delete this item?"));
+              handleDelteTicketList(row._id);
+            }}
+          >
+            <i
+              className="fa fa-trash"
+              style={{
+                width: 35,
+                fontSize: 20,
+                padding: 11,
+                color: "#e4566e",
+              }}
+            ></i>
+          </button>
+        </div>
+      ),
+      style: {
+        textAlign: "center",
+      },
+      sortable: false,
+    });
+  } else if (multiSelectOption === "user") {
+    columns.push({
+      name: <b>Action</b>,
+      id: "delete",
+      accessor: (str) => "delete",
+      cell: (row, index) => (
+        <div>
+          <button
+            className="btn"
+            onClick={() => {
+              if (window.confirm("Are you sure you wish to delete this item?"));
+              handleDeleteUser(row._id);
+            }}
+          >
+            <i
+              className="fa fa-trash"
+              style={{
+                width: 35,
+                fontSize: 20,
+                padding: 11,
+                color: "#e4566e",
+              }}
+            ></i>
+          </button>
+        </div>
+      ),
+      style: {
+        textAlign: "center",
+      },
+      sortable: false,
+    });
+  } else if (multiSelectOption === "wallet") {
+    // columns.push({
+    //   name: <b></b>,
+    //   id: "delete",
+    //   accessor: (str) => "delete",
+    //   cell: (row, index) => (
+    //     <div>
+    //       <button
+    //         className="btn"
+    //         onClick={() => {
+    //           if (window.confirm("Are you sure you wish to delete this item?"));
+    //           // handleDeleteWallet(row._id);
+    //         }}
+    //       >
+    //         <i
+    //           className="fa fa-trash"
+    //           style={{
+    //             width: 35,
+    //             fontSize: 20,
+    //             padding: 11,
+    //             color: "#e4566e",
+    //           }}
+    //         ></i>
+    //       </button>
+    //     </div>
+    //   ),
+    //   style: {
+    //     textAlign: "center",
+    //   },
+    //   sortable: false,
+    // });
+    <p></p>;
   }
   return (
     <div>

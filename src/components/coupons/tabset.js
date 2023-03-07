@@ -20,15 +20,19 @@ const Tabset = () => {
     document.querySelector(".nav-link").classList.remove("show");
     event.target.classList.add("show");
   };
-  const [title, setTitle] = useState("");
-  const [logo, setLogo] = useState("");
-  const [couponCode, setCouponCode] = useState("");
-  const [endTime, setEndTime] = useState("");
-  const [discountPercentage, setDiscountPercentage] = useState("");
-  const [minimumAmount, setMinimumAmount] = useState("");
-  const [productType, setproductType] = useState("");
 
-  const addCoupon = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const form = event.target;
+
+    const title = form.title.value;
+    const logo = form.logo.value;
+    const couponCode = form.coupon.value;
+    const endTime = form.endTime.value;
+    const discountPercentage = form.discountPercentage.value;
+    const minimumAmount = form.minimumAmount.value;
+    const productType = form.productType.value;
+
     const couponData = {
       title,
       logo,
@@ -47,7 +51,12 @@ const Tabset = () => {
       body: JSON.stringify(couponData),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        if (data.message) {
+          form.reset();
+          window.location.reload(true);
+        }
+      });
   };
 
   return (
@@ -57,17 +66,21 @@ const Tabset = () => {
           <Tab className="nav-link" onClick={(e) => clickActive(e)}>
             General
           </Tab>
-          <Tab className="nav-link" onClick={(e) => clickActive(e)}>
+          {/* <Tab className="nav-link" onClick={(e) => clickActive(e)}>
             Restriction
           </Tab>
           <Tab className="nav-link" onClick={(e) => clickActive(e)}>
             Usage
-          </Tab>
+          </Tab> */}
         </TabList>
 
         <TabPanel>
           <div className="tab-pane fade active show">
-            <Form className="needs-validation" noValidate="">
+            <Form
+              className="needs-validation"
+              noValidate=""
+              onSubmit={handleSubmit}
+            >
               <h4>General</h4>
               <Row>
                 <Col sm="12">
@@ -78,12 +91,10 @@ const Tabset = () => {
                     <div className="col-md-7">
                       <Input
                         className="form-control"
-                        onChange={(e) => {
-                          setTitle(e.target.value);
-                        }}
                         id="validationCustom0"
                         type="text"
                         required=""
+                        name="title"
                       />
                     </div>
                   </div>
@@ -96,10 +107,8 @@ const Tabset = () => {
                         className="form-control"
                         id="validationCustom0"
                         type="text"
-                        onChange={(e) => {
-                          setLogo(e.target.value);
-                        }}
                         required=""
+                        name="logo"
                       />
                     </div>
                   </div>
@@ -112,10 +121,8 @@ const Tabset = () => {
                         className="form-control"
                         id="validationCustom1"
                         type="text"
-                        onChange={(e) => {
-                          setCouponCode(e.target.value);
-                        }}
                         required=""
+                        name="coupon"
                       />
                     </div>
                     <div className="valid-feedback">
@@ -143,10 +150,8 @@ const Tabset = () => {
                         className="form-control"
                         id="validationCustom1"
                         type="date"
-                        onChange={(e) => {
-                          setEndTime(e.target.value);
-                        }}
                         required=""
+                        name="endTime"
                       />
                     </div>
                   </div>
@@ -171,10 +176,8 @@ const Tabset = () => {
                       <Input
                         className="form-control"
                         type="number"
-                        onChange={(e) => {
-                          setDiscountPercentage(e.target.value);
-                        }}
                         required=""
+                        name="discountPercentage"
                       />
                     </div>
                   </div>
@@ -184,10 +187,8 @@ const Tabset = () => {
                       <Input
                         className="form-control"
                         type="number"
-                        onChange={(e) => {
-                          setMinimumAmount(e.target.value);
-                        }}
                         required=""
+                        name="minimumAmount"
                       />
                     </div>
                   </div>
@@ -195,11 +196,9 @@ const Tabset = () => {
                     <Label className="col-xl-3 col-md-4">Product Type</Label>
                     <div className="col-md-7">
                       <select
-                        onChange={(e) => {
-                          setproductType(e.target.value);
-                        }}
                         className="form-select"
                         required=""
+                        name="productType"
                       >
                         <option value="">--Select--</option>
                         <option value="1">A</option>
@@ -223,10 +222,15 @@ const Tabset = () => {
                   </div> */}
                 </Col>
               </Row>
+              <div className="pull-right">
+                <button className="btn btn-primary" type="submit">
+                  Save
+                </button>
+              </div>
             </Form>
           </div>
         </TabPanel>
-        <TabPanel>
+        {/* <TabPanel>
           <Form className="needs-validation" noValidate="">
             <h4>Restriction</h4>
             <div className="form-group row">
@@ -301,13 +305,8 @@ const Tabset = () => {
               </div>
             </div>
           </Form>
-        </TabPanel>
+        </TabPanel> */}
       </Tabs>
-      <div className="pull-right">
-        <Button onClick={addCoupon} type="button" color="primary">
-          Save
-        </Button>
-      </div>
     </Fragment>
   );
 };

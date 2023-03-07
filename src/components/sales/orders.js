@@ -13,30 +13,10 @@ const Orders = () => {
   }, []);
   console.log("wallet", wallet);
 
-  const newwallet = [];
-
-  wallet.map((item) => {
-    // if item.products.length
-
-    console.log(item.products.length);
-    if (item.products.length > 0) return;
-    else {
-      // var newWl = [ item?.products[0]]
-      console.log("item?.products[0]", item?.products);
-
-      newwallet.push();
-
-      console.log("Data: ", newwallet);
-      // return setWallet(newWl)
-      // return{...item?.products[0]}
-    }
-
-    // return{...item?.products[0]}
+  const newWallet = wallet.map((item) => {
+    return { ...item.products[0] };
   });
 
-  // console.log("new wallet", newwallet);
-  // console.log("updated wallet file",  wallet);
-  // console.log("updated wallet",  wallet[0]);
   return (
     <Fragment>
       <Breadcrumb title="Orders" parent="Sales" />
@@ -50,8 +30,8 @@ const Orders = () => {
               </CardHeader>
               <CardBody className="order-datatable">
                 <Datatable
-                  multiSelectOption={false}
-                  myData={wallet}
+                  multiSelectOption={"wallet"}
+                  myData={newWallet}
                   pageSize={10}
                   pagination={true}
                   class="-striped -highlight"

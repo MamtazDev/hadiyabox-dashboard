@@ -8,7 +8,7 @@ const TabsetUser = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const addUser = () => {
-    const  userData = {
+    const userData = {
       name: firstname + lastname,
       email,
       password,
@@ -22,14 +22,18 @@ const TabsetUser = () => {
       body: JSON.stringify(userData),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        if (data.token) {
+          window.location.reload(true);
+        }
+      })
+      .catch((error) => console.log(error));
   };
   return (
     <Fragment>
       <Tabs>
         <TabList className="nav nav-tabs tab-coupon">
           <Tab className="nav-link">Account</Tab>
-          <Tab className="nav-link">Permission</Tab>
         </TabList>
         <TabPanel>
           <Form className="needs-validation user-add" noValidate="">
@@ -104,7 +108,7 @@ const TabsetUser = () => {
             </FormGroup>
           </Form>
         </TabPanel>
-        <TabPanel>
+        {/* <TabPanel>
           <Form className="needs-validation user-add" noValidate="">
             <div className="permission-block">
               <div className="attribute-blocks">
@@ -343,7 +347,7 @@ const TabsetUser = () => {
               </div>
             </div>
           </Form>
-        </TabPanel>
+        </TabPanel> */}
       </Tabs>
       <div className="pull-right">
         <Button onClick={addUser} type="button" color="primary">

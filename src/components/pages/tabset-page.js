@@ -28,14 +28,18 @@ const TabsetPage = () => {
       body: JSON.stringify(ticketData),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        if (data.status === 200) {
+          window.location.reload(true);
+        }
+      });
   };
 
   useEffect(() => {
     setUserId(localStorage.getItem("user-id"));
   }, [userId]);
 
-  console.log("userId", userId);
+  // console.log("userId", userId);
 
   return (
     <Fragment>
@@ -43,7 +47,7 @@ const TabsetPage = () => {
         <Tabs>
           <TabList className="nav nav-tabs tab-coupon">
             <Tab className="nav-link">General</Tab>
-            <Tab className="nav-link">SEO</Tab>
+            {/* <Tab className="nav-link">SEO</Tab> */}
           </TabList>
 
           <TabPanel>
@@ -97,7 +101,7 @@ const TabsetPage = () => {
                   <MDEditor value={value} onChange={onChange} />
                 </div>
               </div>
-              <div className="form-group row">
+              {/* <div className="form-group row">
                 <Label className="col-xl-3 col-md-4">Status</Label>
                 <div className="col-xl-8 col-md-7 px-1">
                   <Label className="d-block">
@@ -109,10 +113,10 @@ const TabsetPage = () => {
                     Enable the Coupon
                   </Label>
                 </div>
-              </div>
+              </div> */}
             </Form>
           </TabPanel>
-          <TabPanel>
+          {/* <TabPanel>
             <Form className="needs-validation">
               <h4>SEO</h4>
               <div className="form-group row">
@@ -130,7 +134,7 @@ const TabsetPage = () => {
                 <textarea rows="4" className="col-xl-8 col-md-7"></textarea>
               </div>
             </Form>
-          </TabPanel>
+          </TabPanel> */}
         </Tabs>
         <div className="pull-right">
           <Button onClick={addTicket} type="button" color="primary">

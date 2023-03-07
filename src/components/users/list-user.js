@@ -34,7 +34,7 @@ const List_user = () => {
               className="category-table user-list order-table coupon-list-delete"
             >
               <Datatable
-                multiSelectOption={true}
+                multiSelectOption={"user"}
                 myData={user}
                 pageSize={10}
                 pagination={true}

@@ -12,7 +12,6 @@ const ListCoupons = () => {
       .then((res) => res.json())
       .then((data) => setCoupon(data));
   }, []);
-  console.log(coupon);
 
   return (
     <Fragment>
