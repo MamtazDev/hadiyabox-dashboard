@@ -104,7 +104,7 @@ const Add_product = () => {
       body: JSON.stringify(data),
     });
     const datas = await res.json();
-    console.log(datas);
+    console.log(data);
   };
   useEffect(() => {
     fetch(`http://localhost:5055/api/category/`)
