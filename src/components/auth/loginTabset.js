@@ -15,16 +15,18 @@ const LoginTabset = () => {
     event.target.classList.add("show");
   };
 
-  const routeChange = (e) => {
-    e.preventDefault();
-    loginHandler();
+  const routeChange = () => {
+    console.log("clcked");
+    // loginHandler();
     history(`${process.env.PUBLIC_URL}/dashboard`);
   };
 
-  const loginHandler = () => {
+  const loginHandler = (e) => {
+    e.preventDefault();
+
     const data = {
       email,
-      password
+      password,
     };
 
     fetch(`http://localhost:5055/api/admin/login`, {
@@ -40,6 +42,7 @@ const LoginTabset = () => {
         const id = data._id;
         console.log(id);
         localStorage.setItem("user-id", id);
+        routeChange();
         //  setUserId(id)
       });
   };
@@ -67,7 +70,7 @@ const LoginTabset = () => {
               <FormGroup>
                 <Input
                   required=""
-                  onChange={(e)=>setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                   name="login[username]"
                   type="email"
                   className="form-control"
@@ -78,7 +81,7 @@ const LoginTabset = () => {
               <FormGroup>
                 <Input
                   required=""
-                  onChange={(e)=>setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                   name="login[password]"
                   type="password"
                   className="form-control"
@@ -107,7 +110,7 @@ const LoginTabset = () => {
                 <Button
                   color="primary"
                   type="submit"
-                  onClick={(e) => routeChange(e)}
+                  onClick={(e) => loginHandler(e)}
                 >
                   Login
                 </Button>
@@ -188,7 +191,7 @@ const LoginTabset = () => {
                 <Button
                   color="primary"
                   type="submit"
-                  onClick={() => routeChange()}
+                  // onClick={() => routeChange()}
                 >
                   Register
                 </Button>
