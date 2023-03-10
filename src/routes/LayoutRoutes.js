@@ -27,7 +27,9 @@ import Reports from "../components/reports/report";
 import Orders from "../components/sales/orders";
 import Transactionsales from "../components/sales/transactions-sales";
 import Profile from "../components/settings/profile";
+import Create_Store from "../components/users/create-store";
 import Createuser from "../components/users/create-user";
+import List_store from "../components/users/list-store";
 import Listuser from "../components/users/list-user";
 import Createvendors from "../components/vendors/create.vendors";
 import Listvendors from "../components/vendors/list-vendors";
@@ -55,9 +57,13 @@ const LayoutRoutes = () => {
             element={<Productlist />}
           />
           <Route
-            path={`${process.env.PUBLIC_URL}/products/physical/product-detail`}
+            path={`${process.env.PUBLIC_URL}/products/physical/product-detail/:id`}
             element={<Productdetail />}
           />
+          {/* <Route
+            path={`${process.env.PUBLIC_URL}/products/physical/product-detail`}
+            element={<Productdetail />}
+          /> */}
           <Route
             path={`${process.env.PUBLIC_URL}/products/physical/add-product`}
             element={<Addproduct />}
@@ -121,6 +127,14 @@ const LayoutRoutes = () => {
           <Route
             path={`${process.env.PUBLIC_URL}/users/list-user`}
             element={<Listuser />}
+          />
+          <Route
+            path={`${process.env.PUBLIC_URL}/store/list-store`}
+            element={<List_store />}
+          />
+          <Route
+            path={`${process.env.PUBLIC_URL}/store/create-store`}
+            element={<Create_Store />}
           />
           <Route
             path={`${process.env.PUBLIC_URL}/users/create-user`}

@@ -139,6 +139,16 @@ export const MENUITEMS = [
   //     ],
   //   },
   {
+    title: "Store",
+    icon: UserPlus,
+    type: "sub",
+    active: false,
+    children: [
+      { path: "/store/list-store", title: "Store List", type: "link" },
+      { path: "/store/create-store", title: "Create Store", type: "link" },
+    ],
+  },
+  {
     title: "Users",
     icon: UserPlus,
     type: "sub",

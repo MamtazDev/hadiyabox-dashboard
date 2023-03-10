@@ -6,12 +6,13 @@ import Datatable from "../common/datatable";
 import { Card, CardBody, CardHeader, Container } from "reactstrap";
 import { Table } from "react-bootstrap";
 
-const List_user = () => {
+const List_store = () => {
+  const [store, setStore] = useState([]);
   const [user, setUser] = useState([]);
 
   const handleDelete = (id) => {
     if (window.confirm("Are you really want to delete this user?")) {
-      fetch(`http://localhost:5055/api/admin/${id}`, {
+      fetch(`http://localhost:5055/api/store/${id}`, {
         method: "DELETE",
       })
         .then((res) => res.json())
@@ -23,25 +24,26 @@ const List_user = () => {
     }
   };
 
-  const handleMakeSeller = (id) => {
-    if (window.confirm("Are you really want him to make seller?")) {
-      fetch(`http://localhost:5055/api/admin//seller/${id}`, {
-        method: "PUT",
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === 200) {
-            window.location.reload(true);
-          }
-        });
-    }
-  };
-
   useEffect(() => {
-    fetch("http://localhost:5055/api/admin")
+    const usr = localStorage.getItem("user-id");
+    // fetch(`http://localhost:5055/api/admin/${usr}`)
+    //   .then((res) => res.json())
+    //   .then((data) => setUser(data));
+
+    // console.log(usr);
+
+    fetch(`http://localhost:5055/api/store/${usr}`)
       .then((res) => res.json())
-      .then((data) => setUser(data));
+      .then((data) => setStore(data));
   }, []);
+  // useEffect(() => {
+  //   fetch("http://localhost:5055/api/store/")
+  //     .then((res) => res.json())
+  //     .then((data) => setStore(data));
+  // }, []);
+
+  // console.log(store);
+  // console.log(store);
 
   return (
     <Fragment>
@@ -49,12 +51,12 @@ const List_user = () => {
       <Container fluid={true}>
         <Card>
           <CardHeader>
-            <h5>User Details</h5>
+            <h5>List_store</h5>
           </CardHeader>
           <CardBody>
             <div className="btn-popup pull-right">
               <Link to="/users/create-user" className="btn btn-secondary">
-                Create User
+                List_store
               </Link>
             </div>
             <div className="clearfix"></div>
@@ -69,26 +71,27 @@ const List_user = () => {
                 pagination={true}
                 class="-striped -highlight"
               /> */}
+
               <Table striped bordered hover>
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Wallet</th>
-                    <th>Role</th>
+                    <th>Store Name</th>
+                    <th>Address</th>
+                    <th>Description</th>
+                    <th>Owner Name</th>
                     {/* <th>Status</th> */}
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {user &&
-                    user.map((item, idx) => (
+                  {store &&
+                    store.map((item, idx) => (
                       <tr key={idx}>
                         <td>{idx + 1}</td>
                         <td>{item?.name}</td>
-                        <td>{item?.email}</td>
-                        <td>$ {item?.wallet}</td>
+                        <td>{item?.address}</td>
+                        <td>{item?.description}</td>
                         {/* <td>
                           <div className="">
                             <img
@@ -99,7 +102,7 @@ const List_user = () => {
                             />
                           </div>
                         </td> */}
-                        <td>{item?.role}</td>
+                        <td>{item?.user}</td>
                         {/* <td>
                           <span
                             className={`border px-2 py-1 rounded ${
@@ -120,27 +123,19 @@ const List_user = () => {
                         <td>
                           <div className="d-flex gap-2 justify-content-center">
                             <>
-                              {item?.role === "admin" ||
-                              item?.role === "seller" ? (
-                                ""
-                              ) : (
-                                <button
-                                  className="btn  btn-secondary btn-sm"
-                                  onClick={() => handleMakeSeller(item._id)}
-                                >
-                                  Make Seller
-                                </button>
-                              )}
-                              {item?.role === "admin" ? (
-                                ""
-                              ) : (
-                                <button
-                                  className="btn btn-primary btn-sm"
-                                  onClick={() => handleDelete(item._id)}
-                                >
-                                  Delete
-                                </button>
-                              )}
+                              {/* <button
+                                className="btn  btn-secondary btn-sm"
+                                // onClick={() => handleMakeSeller(item._id)}
+                              >
+                                Make Seller
+                              </button> */}
+
+                              <button
+                                className="btn btn-primary btn-sm"
+                                onClick={() => handleDelete(item._id)}
+                              >
+                                Delete
+                              </button>
                             </>
                           </div>
                         </td>
@@ -156,4 +151,4 @@ const List_user = () => {
   );
 };
 
-export default List_user;
+export default List_store;

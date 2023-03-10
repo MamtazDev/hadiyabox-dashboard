@@ -71,8 +71,11 @@ const Add_product = () => {
   const [allStore, setAllStore] = useState([]);
   const [category, setCategory] = useState("");
   const [stores, setStore] = useState("");
+  const [chobi, setChobi] = useState("");
 
-  const handleValidSubmit = async (event) => {
+  const imageHostKey = "7378254be2fef904c69a0c05769ced22";
+
+  const handleValidSubmit = (event) => {
     event.preventDefault();
 
     const form = event.target;
@@ -83,28 +86,71 @@ const Add_product = () => {
     const store = stores;
     const price = form.price.value;
     const description = value;
+    const originalPrice = form.originalPrice.value;
 
-    const data = {
-      title: title,
-      slug: slug,
-      parent: parent,
-      store: store,
-      price: price,
-      quantity,
-      description: description,
-    };
-
-    console.log(data, "data");
-
-    const res = await fetch("http://localhost:5055/api/products/add", {
+    const image = chobi;
+    const fromData = new FormData();
+    fromData.append("image", image);
+    const uri = `https://api.imgbb.com/1/upload?key=${imageHostKey}`;
+    fetch(uri, {
       method: "POST",
-      headers: {
-        "content-tpe": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const datas = await res.json();
-    console.log(data);
+      body: fromData,
+    })
+      .then((res) => res.json())
+      .then((imgData) => {
+        if (imgData.success) {
+          const product = {
+            title: title,
+            slug: slug,
+            parent: parent,
+            store: store,
+            price: price,
+            quantity,
+            description: description,
+            originalPrice,
+            image: imgData.data.url,
+          };
+
+          fetch("http://localhost:5055/api/products/add", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(product),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.message) {
+                form.reset();
+                alert(data.message);
+              }
+            });
+        }
+      });
+
+    // const data = {
+    //   title: title,
+    //   slug: slug,
+    //   parent: parent,
+    //   store: store,
+    //   price: price,
+    //   quantity,
+    //   description: description,
+    //   originalPrice,
+    // };
+
+    // const res = await fetch("http://localhost:5055/api/products/add", {
+    //   method: "POST",
+    //   headers: {
+    //     "content-type": "application/json",
+    //   },
+    //   body: JSON.stringify(data),
+    // });
+    // const datas = await res.json();
+    // if (datas.message) {
+    //   form.reset();
+    //   alert(datas.message);
+    // }
   };
   useEffect(() => {
     fetch(`http://localhost:5055/api/category/`)
@@ -118,7 +164,6 @@ const Add_product = () => {
       .then((data) => setAllStore(data));
   }, []);
 
-  console.log(allStore);
   return (
     <Fragment>
       <Breadcrumb title="Add Product" parent="Physical" />
@@ -133,7 +178,7 @@ const Add_product = () => {
               <CardBody>
                 <Row className="product-adding">
                   <Col xl="5">
-                    <div className="add-product">
+                    {/* <div className="add-product">
                       <Row>
                         <Col xl="9 xl-50" sm="6 col-9">
                           <img
@@ -165,6 +210,15 @@ const Add_product = () => {
                           </ul>
                         </Col>
                       </Row>
+                    </div> */}
+
+                    <div>
+                      <input
+                        type="file"
+                        className="file-input file-input-bordered w-full"
+                        name="image"
+                        onChange={(e) => setChobi(e.target.files[0])}
+                      />
                     </div>
                   </Col>
                   <Col xl="7">
@@ -196,6 +250,21 @@ const Add_product = () => {
                             <Input
                               className="form-control mb-0"
                               name="price"
+                              id="validationCustom02"
+                              type="number"
+                              required
+                            />
+                          </div>
+                          <div className="valid-feedback">Looks good!</div>
+                        </FormGroup>
+                        <FormGroup className="form-group mb-3 row">
+                          <Label className="col-xl-3 col-sm-4 mb-0">
+                            Original Price :
+                          </Label>
+                          <div className="col-xl-8 col-sm-7">
+                            <Input
+                              className="form-control mb-0"
+                              name="originalPrice"
                               id="validationCustom02"
                               type="number"
                               required
