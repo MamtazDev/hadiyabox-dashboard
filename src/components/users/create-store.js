@@ -1,5 +1,6 @@
 import TextArea from "@uiw/react-md-editor/lib/components/TextArea";
 import React, { Fragment, useEffect, useState } from "react";
+import Dropdown from "react-bootstrap/Dropdown";
 import {
   Card,
   CardBody,
@@ -17,6 +18,7 @@ import TabsetUser from "./tabset-user";
 
 const Create_Store = () => {
   const [seller, setSeller] = useState("");
+  const [allSeller, setAllSeller] = useState([]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -51,11 +53,23 @@ const Create_Store = () => {
   };
 
   useEffect(() => {
-    const usr = localStorage.getItem("user-id");
-    fetch(`http://localhost:5055/api/admin/${usr}`)
+    fetch("http://localhost:5055/api/admin/")
       .then((res) => res.json())
-      .then((data) => setSeller(data));
+      .then((data) => {
+        const seller = data.filter((item) => item.role === "seller");
+        setAllSeller(seller);
+      });
   }, []);
+
+  // useEffect(() => {
+  //   const usr = localStorage.getItem("user-id");
+  //   fetch(`http://localhost:5055/api/admin/${usr}`)
+  //     .then((res) => res.json())
+  //     .then((data) => setSeller(data));
+  // }, []);
+
+  // console.log(allSeller);
+  // console.log(seller);
   return (
     <Fragment>
       <Breadcrumb title="Create User" parent="Users" />
@@ -116,6 +130,23 @@ const Create_Store = () => {
                         required=""
                       /> */}
                       <textarea rows="" cols="" name="description"></textarea>
+                      <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                          Choose Seller
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                          {allSeller &&
+                            allSeller.map((item) => (
+                              <Dropdown.Item
+                                href="#/action-1"
+                                onClick={() => setSeller(item)}
+                              >
+                                {item.name}
+                              </Dropdown.Item>
+                            ))}
+                        </Dropdown.Menu>
+                      </Dropdown>
                     </div>
                   </FormGroup>
                   {/* <FormGroup className="row">

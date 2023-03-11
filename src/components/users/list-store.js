@@ -26,15 +26,21 @@ const List_store = () => {
 
   useEffect(() => {
     const usr = localStorage.getItem("user-id");
-    // fetch(`http://localhost:5055/api/admin/${usr}`)
-    //   .then((res) => res.json())
-    //   .then((data) => setUser(data));
+    fetch(`http://localhost:5055/api/admin/${usr}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.role === "admin") {
+          fetch("http://localhost:5055/api/store/")
+            .then((res) => res.json())
+            .then((allstores) => setStore(allstores));
+        } else {
+          fetch(`http://localhost:5055/api/store/${usr}`)
+            .then((res) => res.json())
+            .then((sellerStores) => setStore(sellerStores));
+        }
+      });
 
     // console.log(usr);
-
-    fetch(`http://localhost:5055/api/store/${usr}`)
-      .then((res) => res.json())
-      .then((data) => setStore(data));
   }, []);
   // useEffect(() => {
   //   fetch("http://localhost:5055/api/store/")

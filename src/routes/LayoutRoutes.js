@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import App from "../components/app";
 import Datatable from "../components/common/datatable";
@@ -35,6 +35,13 @@ import Createvendors from "../components/vendors/create.vendors";
 import Listvendors from "../components/vendors/list-vendors";
 
 const LayoutRoutes = () => {
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    const usr = localStorage.getItem("user-id");
+    fetch(`http://localhost:5055/api/admin/${usr}`)
+      .then((res) => res.json())
+      .then((data) => setUser(data));
+  }, []);
   return (
     <Fragment>
       <Routes>
@@ -128,14 +135,19 @@ const LayoutRoutes = () => {
             path={`${process.env.PUBLIC_URL}/users/list-user`}
             element={<Listuser />}
           />
-          <Route
-            path={`${process.env.PUBLIC_URL}/store/list-store`}
-            element={<List_store />}
-          />
-          <Route
-            path={`${process.env.PUBLIC_URL}/store/create-store`}
-            element={<Create_Store />}
-          />
+          {user && user.role === "admin" && (
+            <Route
+              path={`${process.env.PUBLIC_URL}/store/list-store`}
+              element={<List_store />}
+            />
+          )}
+          {user && user.role === "admin" && (
+            <Route
+              path={`${process.env.PUBLIC_URL}/store/create-store`}
+              element={<Create_Store />}
+            />
+          )}
+
           <Route
             path={`${process.env.PUBLIC_URL}/users/create-user`}
             element={<Createuser />}
