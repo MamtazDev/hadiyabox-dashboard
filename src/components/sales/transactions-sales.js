@@ -24,7 +24,7 @@ const Transactions_sales = () => {
               </CardHeader>
               <div id="batchDelete" className="transactions">
                 <h2>something</h2>
-                <table class="table">
+                {/* <table class="table">
                   <thead>
                     <tr>
                       <th scope="col">#</th>
@@ -52,14 +52,14 @@ const Transactions_sales = () => {
                       <td>@twitter</td>
                     </tr>
                   </tbody>
-                </table>
-                {/* <Datatable
-                    listPage={true}
-                    myData={ticket}
-                    pageSize={10}
-                    pagination={true}
-                    class="-striped -highlight"
-                  /> */}
+                </table> */}
+                <Datatable
+                  listPage={true}
+                  myData={ticket}
+                  pageSize={10}
+                  pagination={true}
+                  class="-striped -highlight"
+                />
               </div>
             </Card>
           </Col>

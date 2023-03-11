@@ -102,8 +102,8 @@ const Add_product = () => {
           const product = {
             title: title,
             slug: slug,
-            parent: parent,
-            store: store,
+            parent: store,
+            store: parent,
             price: price,
             quantity,
             description: description,

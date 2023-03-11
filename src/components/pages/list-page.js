@@ -16,6 +16,8 @@ function formatDate(date) {
 const ListPages = () => {
   const [ticket, setTicket] = useState([]);
 
+  const [user, setUser] = useState("");
+
   const handleAccept = (id) => {
     if (window.confirm("Are you sure you wish to Accept this item?")) {
       fetch(`http://localhost:5055/api/ticket/status/${id}`, {
@@ -50,6 +52,13 @@ const ListPages = () => {
     }
   };
   useEffect(() => {
+    const usr = localStorage.getItem("user-id");
+    fetch(`http://localhost:5055/api/admin/${usr}`)
+      .then((res) => res.json())
+      .then((data) => setUser(data));
+  }, []);
+
+  useEffect(() => {
     fetch("http://localhost:5055/api/ticket/")
       .then((res) => res.json())
       .then((data) => setTicket(data));
@@ -65,6 +74,7 @@ const ListPages = () => {
             <Card>
               <CardHeader>
                 <h5>Ticket List</h5>
+                <h4 className="mt-2">Admin Wallet: $ {user?.wallet}</h4>
               </CardHeader>
               <CardBody>
                 <div

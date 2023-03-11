@@ -75,11 +75,12 @@ const LayoutRoutes = () => {
             path={`${process.env.PUBLIC_URL}/products/physical/add-product`}
             element={<Addproduct />}
           />
-
-          <Route
-            path={`${process.env.PUBLIC_URL}/products/digital/digital-category`}
-            element={<Digitalcategory />}
-          />
+          {user && user.role === "admin" && (
+            <Route
+              path={`${process.env.PUBLIC_URL}/products/digital/digital-category`}
+              element={<Digitalcategory />}
+            />
+          )}
           <Route
             path={`${process.env.PUBLIC_URL}/products/digital/digital-sub-category`}
             element={<Digitalsubcategory />}
@@ -110,11 +111,12 @@ const LayoutRoutes = () => {
             path={`${process.env.PUBLIC_URL}/coupons/create-coupons`}
             element={<Createcoupons />}
           />
-
-          <Route
-            path={`${process.env.PUBLIC_URL}/pages/list-page`}
-            element={<ListPages />}
-          />
+          {user && user.role === "admin" && (
+            <Route
+              path={`${process.env.PUBLIC_URL}/pages/list-page`}
+              element={<ListPages />}
+            />
+          )}
           <Route
             path={`${process.env.PUBLIC_URL}/pages/create-page`}
             element={<Createpage />}
@@ -135,12 +137,12 @@ const LayoutRoutes = () => {
             path={`${process.env.PUBLIC_URL}/users/list-user`}
             element={<Listuser />}
           />
-          {user && user.role === "admin" && (
-            <Route
-              path={`${process.env.PUBLIC_URL}/store/list-store`}
-              element={<List_store />}
-            />
-          )}
+          {/* {user && user.role === "admin" && ( */}
+          <Route
+            path={`${process.env.PUBLIC_URL}/store/list-store`}
+            element={<List_store />}
+          />
+          {/* )} */}
           {user && user.role === "admin" && (
             <Route
               path={`${process.env.PUBLIC_URL}/store/create-store`}
