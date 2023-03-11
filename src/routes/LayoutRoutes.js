@@ -132,11 +132,12 @@ const LayoutRoutes = () => {
             path={`${process.env.PUBLIC_URL}/menus/create-menu`}
             element={<Createmenu />}
           />
-
-          <Route
-            path={`${process.env.PUBLIC_URL}/users/list-user`}
-            element={<Listuser />}
-          />
+          {user && user.role === "admin" && (
+            <Route
+              path={`${process.env.PUBLIC_URL}/users/list-user`}
+              element={<Listuser />}
+            />
+          )}
           {/* {user && user.role === "admin" && ( */}
           <Route
             path={`${process.env.PUBLIC_URL}/store/list-store`}
@@ -149,11 +150,12 @@ const LayoutRoutes = () => {
               element={<Create_Store />}
             />
           )}
-
-          <Route
-            path={`${process.env.PUBLIC_URL}/users/create-user`}
-            element={<Createuser />}
-          />
+          {user && user.role === "admin" && (
+            <Route
+              path={`${process.env.PUBLIC_URL}/users/create-user`}
+              element={<Createuser />}
+            />
+          )}
 
           <Route
             path={`${process.env.PUBLIC_URL}/vendors/list_vendors`}
