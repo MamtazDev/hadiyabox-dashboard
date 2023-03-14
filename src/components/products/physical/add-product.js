@@ -72,8 +72,11 @@ const Add_product = () => {
   const [category, setCategory] = useState("");
   const [stores, setStore] = useState("");
   const [chobi, setChobi] = useState("");
+  const [seller, setSeller] = useState("");
 
   const imageHostKey = "7378254be2fef904c69a0c05769ced22";
+
+  console.log(allStore, "Jlkklf");
 
   const handleValidSubmit = (event) => {
     event.preventDefault();
@@ -109,6 +112,7 @@ const Add_product = () => {
             description: description,
             originalPrice,
             image: imgData.data.url,
+            seller: seller,
           };
 
           fetch("http://localhost:5055/api/products/add", {
@@ -295,6 +299,7 @@ const Add_product = () => {
 
                             <Dropdown.Menu>
                               {allCategory &&
+                                allCategory.length > 0 &&
                                 allCategory.map((cat) => (
                                   <Dropdown.Item
                                     href="#/action-1"
@@ -318,7 +323,10 @@ const Add_product = () => {
                                 allStore.map((store) => (
                                   <Dropdown.Item
                                     href="#/action-1"
-                                    onClick={() => setCategory(store.name)}
+                                    onClick={() => {
+                                      setSeller(store.user);
+                                      setCategory(store.name);
+                                    }}
                                   >
                                     {store.name}
                                   </Dropdown.Item>

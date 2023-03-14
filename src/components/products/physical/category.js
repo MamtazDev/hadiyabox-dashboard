@@ -45,8 +45,8 @@ const Category = () => {
     const category = {
       category: categoryName,
       slug,
-      product_name: producetName,
-      price: `$${producetPrice}`,
+      // product_name: producetName,
+      // price: `$${producetPrice}`,
     };
     fetch("http://localhost:5055/api/category/add", {
       method: "POST",
@@ -135,7 +135,7 @@ const Category = () => {
                             onChange={(e) => setCategoryName(e.target.value)}
                           />
                         </FormGroup>
-                        <FormGroup>
+                        {/* <FormGroup>
                           <Label
                             htmlFor="recipient-name"
                             className="col-form-label"
@@ -147,8 +147,8 @@ const Category = () => {
                             className="form-control"
                             onChange={(e) => setProductName(e.target.value)}
                           />
-                        </FormGroup>
-                        <FormGroup>
+                        </FormGroup> */}
+                        {/* <FormGroup>
                           <Label
                             htmlFor="recipient-name"
                             className="col-form-label"
@@ -160,7 +160,7 @@ const Category = () => {
                             className="form-control"
                             onChange={(e) => setProductPrice(e.target.value)}
                           />
-                        </FormGroup>
+                        </FormGroup> */}
                         {/* <FormGroup>
                           <Label
                             htmlFor="message-text"

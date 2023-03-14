@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Home,
   Box,
@@ -14,6 +15,14 @@ import {
   Archive,
   LogIn,
 } from "react-feather";
+
+// const [user, setUser] = useState("");
+// useEffect(() => {
+//   const usr = localStorage.getItem("user-id");
+//   fetch(`http://localhost:5055/api/admin/${usr}`)
+//     .then((res) => res.json())
+//     .then((data) => setUser(data));
+// }, []);
 
 export const MENUITEMS = [
   {
@@ -40,21 +49,21 @@ export const MENUITEMS = [
             title: "Category",
             type: "link",
           },
-          {
-            path: "/products/physical/sub-category",
-            title: "Sub Category",
-            type: "link",
-          },
+          // {
+          //   path: "/products/physical/sub-category",
+          //   title: "Sub Category",
+          //   type: "link",
+          // },
           {
             path: "/products/physical/product-list",
             title: "Product List",
             type: "link",
           },
-          {
-            path: "/products/physical/product-detail",
-            title: "Product Detail",
-            type: "link",
-          },
+          // {
+          //   path: "/products/physical/product-detail",
+          //   title: "Product Detail",
+          //   type: "link",
+          // },
           {
             path: "/products/physical/add-product",
             title: "Add Product",
@@ -72,11 +81,11 @@ export const MENUITEMS = [
             title: "Withdeaw List",
             type: "link",
           },
-          {
-            path: "/products/digital/digital-sub-category",
-            title: "Request Withdeaw ",
-            type: "link",
-          },
+          // {
+          //   path: "/products/digital/digital-sub-category",
+          //   title: "Request Withdeaw ",
+          //   type: "link",
+          // },
           // {
           //   path: "/products/digital/digital-product-list",
           //   title: "Product List",
@@ -98,7 +107,7 @@ export const MENUITEMS = [
     active: false,
     children: [
       { path: "/sales/orders", title: "Orders", type: "link" },
-      { path: "/sales/transactions", title: "Transactions", type: "link" },
+      { path: "/sales/transactions", title: "allNotification", type: "link" },
     ],
   },
   {
