@@ -87,10 +87,32 @@ const Header = () => {
   const [seen, setSeen] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:5055/api/notification/")
+    const usr = localStorage.getItem("user-id");
+    fetch(`http://localhost:5055/api/admin/${usr}`)
       .then((res) => res.json())
-      .then((data) => setAllnotification(data));
+      .then((data) => {
+        if (data.role === "admin") {
+          fetch("http://localhost:5055/api/notification/")
+            .then((res) => res.json())
+            .then((allstores) => setAllnotification(allstores));
+        } else {
+          fetch(`http://localhost:5055/api/notification/`)
+            .then((res) => res.json())
+            .then((sellerStores) => {
+              const noti = sellerStores.filter(
+                (notification) => notification.title === "Order"
+              );
+              setAllnotification(noti);
+            });
+        }
+      });
   }, [seen]);
+
+  //   useEffect(() => {
+  //     fetch("http://localhost:5055/api/notification/")
+  //       .then((res) => res.json())
+  //       .then((data) => setAllnotification(data));
+  //   }, [seen]);
 
   const handleSeenNotification = (id) => {
     fetch(`http://localhost:5055/api/notification/seen/${id}`, {
