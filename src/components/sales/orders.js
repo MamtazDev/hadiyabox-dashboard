@@ -52,7 +52,7 @@ const Orders = () => {
                     <tr>
                       <th>#</th>
                       <th>Product Name</th>
-                      <th>Type</th>
+                      {/* <th>Type</th> */}
                       <th>Price</th>
                       <th>Category</th>
                       <th>Store</th>
@@ -69,7 +69,7 @@ const Orders = () => {
                         <tr key={idx}>
                           <td>{idx + 1}</td>
                           <td>{item?.title}</td>
-                          <td>{item?.type}</td>
+                          {/* <td>{item?.type}</td> */}
                           <td>${item?.price}</td>
                           <td>{item?.parent}</td>
                           <td>{item?.store}</td>

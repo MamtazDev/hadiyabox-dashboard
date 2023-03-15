@@ -50,19 +50,24 @@ const LayoutRoutes = () => {
             path={`${process.env.PUBLIC_URL}/dashboard`}
             element={<Dashboard />}
           />
-
-          <Route
-            path={`${process.env.PUBLIC_URL}/products/physical/category`}
-            element={<Category />}
-          />
-          <Route
-            path={`${process.env.PUBLIC_URL}/products/physical/sub-category`}
-            element={<Subcategory />}
-          />
-          <Route
-            path={`${process.env.PUBLIC_URL}/products/physical/product-list`}
-            element={<Productlist />}
-          />
+          {user && user.role === "admin" && (
+            <Route
+              path={`${process.env.PUBLIC_URL}/products/physical/category`}
+              element={<Category />}
+            />
+          )}
+          {user && user.role === "admin" && (
+            <Route
+              path={`${process.env.PUBLIC_URL}/products/physical/sub-category`}
+              element={<Subcategory />}
+            />
+          )}
+          {user && user.role === "admin" && (
+            <Route
+              path={`${process.env.PUBLIC_URL}/products/physical/product-list`}
+              element={<Productlist />}
+            />
+          )}
           <Route
             path={`${process.env.PUBLIC_URL}/products/physical/product-detail/:id`}
             element={<Productdetail />}
@@ -71,10 +76,12 @@ const LayoutRoutes = () => {
             path={`${process.env.PUBLIC_URL}/products/physical/product-detail`}
             element={<Productdetail />}
           /> */}
-          <Route
-            path={`${process.env.PUBLIC_URL}/products/physical/add-product`}
-            element={<Addproduct />}
-          />
+          {user && user.role === "admin" && (
+            <Route
+              path={`${process.env.PUBLIC_URL}/products/physical/add-product`}
+              element={<Addproduct />}
+            />
+          )}
           {user && user.role === "admin" && (
             <Route
               path={`${process.env.PUBLIC_URL}/products/digital/digital-category`}
