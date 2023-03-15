@@ -81,11 +81,11 @@ export const MENUITEMS = [
             title: "Withdeaw List",
             type: "link",
           },
-          // {
-          //   path: "/products/digital/digital-sub-category",
-          //   title: "Request Withdeaw ",
-          //   type: "link",
-          // },
+          {
+            path: "/products/digital/digital-sub-category",
+            title: "Request Withdeaw ",
+            type: "link",
+          },
           // {
           //   path: "/products/digital/digital-product-list",
           //   title: "Product List",
