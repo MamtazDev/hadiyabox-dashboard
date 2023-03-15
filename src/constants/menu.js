@@ -25,14 +25,14 @@ import {
 // }, []);
 
 export const MENUITEMS = [
-  {
-    path: "/dashboard",
-    title: "Dashboard",
-    icon: Home,
-    type: "link",
-    badgeType: "primary",
-    active: false,
-  },
+  // {
+  //   path: "/dashboard",
+  //   title: "Dashboard",
+  //   icon: Home,
+  //   type: "link",
+  //   badgeType: "primary",
+  //   active: false,
+  // },
   {
     title: "Products",
     icon: Box,

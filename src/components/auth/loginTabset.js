@@ -9,6 +9,7 @@ const LoginTabset = () => {
   const [userId, setUserId] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const clickActive = (event) => {
     document.querySelector(".nav-link").classList.remove("show");
@@ -16,7 +17,7 @@ const LoginTabset = () => {
   };
 
   const routeChange = () => {
-    console.log("clcked");
+    // console.log("clcked");
     // loginHandler();
     history(`${process.env.PUBLIC_URL}/dashboard`);
   };
@@ -38,11 +39,16 @@ const LoginTabset = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        const id = data._id;
-        console.log(id);
-        localStorage.setItem("user-id", id);
-        routeChange();
+        console.log(data, "userfdasfdf");
+        if (data.message === "Invalid Admin or password!") {
+          setError(data.message);
+        } else {
+          const id = data._id;
+          console.log(id);
+          localStorage.setItem("user-id", id);
+          routeChange();
+        }
+
         //  setUserId(id)
       });
   };
@@ -91,12 +97,12 @@ const LoginTabset = () => {
               <div className="form-terms">
                 <div className="custom-control custom-checkbox me-sm-2">
                   <Label className="d-block">
-                    <Input
+                    {/* <Input
                       className="checkbox_animated"
                       id="chk-ani2"
                       type="checkbox"
-                    />
-                    Reminder Me{" "}
+                    /> */}
+                    {error}
                     <span className="pull-right">
                       {" "}
                       <a href="/#" className="btn btn-default forgot-pass p-0">

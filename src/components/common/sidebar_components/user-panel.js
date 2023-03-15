@@ -1,22 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import man from "../../../assets/images/dashboard/man.png";
 
 const UserPanel = () => {
-	return (
-		<div>
-			<div className="sidebar-user text-center">
-				<div>
-					<img
-						className="img-60 rounded-circle lazyloaded blur-up"
-						src={man}
-						alt="#"
-					/>
-				</div>
-				<h6 className="mt-3 f-14">JOHN</h6>
-				<p>general manager.</p>
-			</div>
-		</div>
-	);
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    const usr = localStorage.getItem("user-id");
+    fetch(`http://localhost:5055/api/admin/${usr}`)
+      .then((res) => res.json())
+      .then((data) => setUser(data));
+  }, []);
+  return (
+    <div>
+      <div className="sidebar-user text-center">
+        <div></div>
+        <h6 className="mt-3 f-14">{user.name}</h6>
+        <p>{user.role}</p>
+      </div>
+    </div>
+  );
 };
 
 export default UserPanel;

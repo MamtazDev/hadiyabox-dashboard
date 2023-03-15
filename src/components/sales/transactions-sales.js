@@ -7,8 +7,28 @@ import { Table } from "react-bootstrap";
 
 const Transactions_sales = () => {
   const [allNotification, setAllnotification] = useState([]);
-
   const [deletenotification, setDeletenotification] = useState(false);
+
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    const usr = localStorage.getItem("user-id");
+    fetch(`http://localhost:5055/api/admin/${usr}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.role === "admin") {
+          fetch("http://localhost:5055/api/notification/")
+            .then((res) => res.json())
+            .then((notData) => setAllnotification(notData));
+        } else {
+          fetch("http://localhost:5055/api/notification/")
+            .then((res) => res.json())
+            .then((sellerNot) => {
+              const noti = sellerNot.filter((n) => n.title === "Order");
+              setAllnotification(noti);
+            });
+        }
+      });
+  }, [deletenotification]);
 
   const handleDelete = (id) => {
     fetch(`http://localhost:5055/api/notification/${id}`, {
@@ -18,11 +38,11 @@ const Transactions_sales = () => {
     );
   };
 
-  useEffect(() => {
-    fetch("http://localhost:5055/api/notification/")
-      .then((res) => res.json())
-      .then((data) => setAllnotification(data));
-  }, [deletenotification]);
+  // useEffect(() => {
+  //   fetch("http://localhost:5055/api/notification/")
+  //     .then((res) => res.json())
+  //     .then((data) => setAllnotification(data));
+  // }, [deletenotification]);
   return (
     <Fragment>
       <Breadcrumb title="Transactions" parent="Sales" />
