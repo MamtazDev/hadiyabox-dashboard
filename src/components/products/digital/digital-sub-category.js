@@ -20,6 +20,14 @@ import {
   Row,
 } from "reactstrap";
 
+function formatDate(date) {
+  const currentMonth = date.getMonth();
+  const monthString = currentMonth >= 10 ? currentMonth : `0${currentMonth}`;
+  const currentDate = date.getDate();
+  const dateString = currentDate >= 10 ? currentDate : `0${currentDate}`;
+  return `${date.getFullYear()}-${monthString}-${currentDate}`;
+}
+
 const Digital_sub_category = () => {
   const [open, setOpen] = useState(false);
 
@@ -36,6 +44,7 @@ const Digital_sub_category = () => {
 
   const [sellerName, setSellerName] = useState("");
   const [amount, setAmount] = useState("");
+  const [allWithDraw, setAllWithDraw] = useState([]);
 
   const handleWithDrawSubmit = (event) => {
     event.preventDefault();
@@ -60,17 +69,29 @@ const Digital_sub_category = () => {
       .then((data) => {
         if (data.status === 200) {
           window.location.reload(true);
+        } else {
+          alert(data.message);
         }
       });
   };
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
+    fetch(`http://localhost:5055/api/withdraw/${user}`)
+      .then((res) => res.json())
+      .then((data) => setAllWithDraw(data));
+  }, [user]);
+
+  useEffect(() => {
+    const userId = localStorage.getItem("user-id");
     setUser(userId);
 
     fetch(`http://localhost:5055/api/admin/${userId}`).then((res) =>
       res.json().then((data) => setUserData(data))
     );
+
+    fetch(`http://localhost:5055/api/withdraw/${userId}`)
+      .then((res) => res.json())
+      .then((data) => setAllWithDraw(data));
   }, []);
 
   return (
@@ -138,6 +159,53 @@ const Digital_sub_category = () => {
             </CardBody>
           </Card>
         </Row>
+        <div>
+          <ul className="row">
+            {allWithDraw &&
+              allWithDraw.map((ticket) => (
+                <div className="d-flex flex-column border p-3 col-3">
+                  <li>
+                    Name:{" "}
+                    <span
+                      style={{
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {ticket.name}
+                    </span>
+                  </li>
+                  <li>
+                    Amount:{" "}
+                    <span className="text-warning">${ticket.amount}</span>
+                  </li>
+                  <li className="text-secondary">
+                    Date:{" "}
+                    {ticket.createdAt
+                      ? formatDate(new Date(ticket.createdAt))
+                      : "---"}
+                  </li>
+                  <li className="text-secondary">
+                    Status:{" "}
+                    <span
+                      className={`border px-2 py-1 rounded ${
+                        ticket.status === true && "bg-success"
+                      } ${ticket.rejected === true && "bg-danger"} ${
+                        ticket.status === false &&
+                        ticket.rejected === false &&
+                        "bg-warning"
+                      } text-light`}
+                    >
+                      {ticket.status === true && "Accpted"}
+                      {ticket.rejected === true && "Rejected"}
+                      {ticket.status === false &&
+                        ticket.rejected === false &&
+                        "Pending"}
+                    </span>
+                  </li>
+                </div>
+              ))}
+          </ul>
+        </div>
       </Container>
       {/* <!-- Container-fluid Ends--> */}
     </Fragment>

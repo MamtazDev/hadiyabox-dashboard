@@ -88,10 +88,12 @@ const LayoutRoutes = () => {
               element={<Digitalcategory />}
             />
           )}
-          <Route
-            path={`${process.env.PUBLIC_URL}/products/digital/digital-sub-category`}
-            element={<Digitalsubcategory />}
-          />
+          {user && user.role === "seller" && (
+            <Route
+              path={`${process.env.PUBLIC_URL}/products/digital/digital-sub-category`}
+              element={<Digitalsubcategory />}
+            />
+          )}
           <Route
             path={`${process.env.PUBLIC_URL}/products/digital/digital-product-list`}
             element={<Digitalprolist />}
